@@ -76,13 +76,13 @@ public class BootJpaExampleApplication {
 		allUsers.forEach(e -> {
 			System.out.println(e);
 		});
-
+		System.out.println("------------------------------");
 		// get single user data
 		List<User> userByName = userRepository.getUserByName("Ganesh Nikam", "At Chichgaon");
 		userByName.forEach(data -> {
 			System.out.println(data);
 		});
-
+		System.out.println("------------------------------");
 		// call nativee Query
 		List<User> users = userRepository.getUsers();
 		users.forEach(data -> {
