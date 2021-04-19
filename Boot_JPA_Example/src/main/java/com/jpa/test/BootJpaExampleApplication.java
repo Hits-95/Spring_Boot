@@ -66,8 +66,26 @@ public class BootJpaExampleApplication {
 		 *** calling custom finder methods
 		 */
 		// List<User> findByName = userRepository.findByName("Hitesh Ahire");
-		List<User> findByName = userRepository.findByNameAndCity("Ganesh Nikam", "At Chichgaon");
-		findByName.forEach(data -> {
+//		List<User> findByName = userRepository.findByNameAndCity("Ganesh Nikam", "At Chichgaon");
+//		findByName.forEach(data -> {
+//			System.out.println(data);
+//		});
+
+		// get all users
+		List<User> allUsers = userRepository.getAllUsers();
+		allUsers.forEach(e -> {
+			System.out.println(e);
+		});
+
+		// get single user data
+		List<User> userByName = userRepository.getUserByName("Ganesh Nikam", "At Chichgaon");
+		userByName.forEach(data -> {
+			System.out.println(data);
+		});
+
+		// call nativee Query
+		List<User> users = userRepository.getUsers();
+		users.forEach(data -> {
 			System.out.println(data);
 		});
 
