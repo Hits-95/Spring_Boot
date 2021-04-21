@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Book {
 
@@ -18,6 +20,7 @@ public class Book {
 
 	// first save all info of author then save book IMP
 	@OneToOne(cascade = CascadeType.ALL)
+	@JsonManagedReference // for avoid looping proble and this is book is parent -> author is chiled
 	private Author author;
 
 	public Book() {
