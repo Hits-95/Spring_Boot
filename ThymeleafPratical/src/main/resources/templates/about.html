@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>About-Page</title>
+</head>
+<body>
+	<h1>
+		Name : <span th:text="${ #strings.toUpperCase(name)}"></span>
+	</h1>
+	<p th:test="${data}"></p>
+	<div th:with="a = 5, b = 12, data = ${name}">
+		<p th:text="${data}"></p>
+		<p th:text="'sum of ' +${a}+ ' and ' +${b}+ ' is ' +${a+b} "></p>
+	</div>
+</body>
+</html>
