@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en" xmlns:ht="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Loop</title>
+</head>
+<body>
+	<h1>For Loop Example</h1>
+	<!--  Iteration perform here -->
+
+	<h2 th:text="${names}"></h2>
+	<ul>
+		<li th:each="name, status : ${names}"><span
+			th:style="${status.odd} ?  'font-weight:bold' : 'color:green'"
+			th:text=" ${status.index} + ' -> ' + ${name}"></span></li>
+	</ul>
+</body>
+</html>
