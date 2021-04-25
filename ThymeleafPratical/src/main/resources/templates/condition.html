@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Condition</title>
+</head>
+<body>
+	<h1>Ternary oprator</h1>
+	<h2>
+		User is <span th:style="${isActive} ? 'color:green' : 'color:red' "
+			th:text="${isActive} ? 'ACTIVE' : 'NOT ACTIVE' "></span>
+	</h2>
+
+	<!--  if (true) -->
+	<h1 th:if=" ${gender} == 'male' ">Male</h1>
+	<!-- else  !(true) -->
+	<h1 th:unless=" ${gender} == 'male' ">Female</h1>
+
+	<!--  switch case  -->
+	<div th:switch="${ #lists.size(list) }">
+		<h1 th:case="'0'">List contain zero element</h1>
+		<h1 th:case="'1'">List contain one element</h1>
+		<h1 th:case="'2'">List contain two element</h1>
+		<h1 th:case="'3'">List contain three element</h1>
+		<h1 th:case="'4'">List contain foure element</h1>
+		<h1 th:case="'5'">List contain five element</h1>
+		<h1 th:case="*">List contain more element</h1>
+
+	</div>
+</body>
+</html>

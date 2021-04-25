@@ -32,4 +32,25 @@ public class MyController {
 		model.addAttribute("names", names);
 		return "iterater";
 	}
+
+	// handler for condition
+	@GetMapping("/condition")
+	public String conditionalHandler(Model model) {
+
+		model.addAttribute("isActive", false);
+		// model.addAttribute("isActive", true);
+		List<Integer> list = List.of(1, 2, 3, 4, 5, 6, 7);
+		model.addAttribute("gender", "female");
+		model.addAttribute("list", list);
+		return "condition";
+	}
+	
+	//handler for including fragment
+	@GetMapping("/service")
+	public String servicesHandlder(Model model) {
+		model.addAttribute("title", "About Hitesh Ahire.");
+		model.addAttribute("subtitle", "To learn code and try to performe it as well.");
+
+		return "service";
+	}
 }
