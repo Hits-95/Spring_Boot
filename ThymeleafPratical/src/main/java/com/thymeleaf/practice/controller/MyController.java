@@ -44,13 +44,25 @@ public class MyController {
 		model.addAttribute("list", list);
 		return "condition";
 	}
-	
-	//handler for including fragment
+
+	// handler for including fragment
 	@GetMapping("/service")
 	public String servicesHandlder(Model model) {
 		model.addAttribute("title", "About Hitesh Ahire.");
 		model.addAttribute("subtitle", "To learn code and try to performe it as well.");
 
 		return "service";
+	}
+
+	// for new about
+	@GetMapping("/about-new")
+	public String aboutNew() {
+		return "aboutNew";
+	}
+
+	// for new contact
+	@GetMapping("/contact-new")
+	public String contactNew() {
+		return "contactNew";
 	}
 }

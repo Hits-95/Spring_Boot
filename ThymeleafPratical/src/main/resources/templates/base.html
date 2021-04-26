@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:fragment="Layout(context)">
+<head>
+<meta charset="UTF-8" />
+<title>Base</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+	<h1>This is common header.</h1>
+
+	<div th:replace="${context}"></div>
+
+
+	<h1>Common footer.</h1>
+</body>
+</html>
