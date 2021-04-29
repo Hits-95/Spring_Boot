@@ -17,14 +17,13 @@ public class MyController {
 	@GetMapping("/form")
 	public String openForm(Model model) {
 
-		model.addAttribute("loginData", new LoginData());
+		model.addAttribute("loginData", new LoginData());// set this fot th:object="${loginData}"
 		return "form";
 	}
 
 	// handler for process form
 	@PostMapping("/process")
-	public String processForm(@Valid @ModelAttribute("loginData") LoginData loginData,
-			BindingResult result) {
+	public String processForm(@Valid @ModelAttribute("loginData") LoginData loginData, BindingResult result) {
 
 		// get errors
 		if (result.hasErrors()) {
