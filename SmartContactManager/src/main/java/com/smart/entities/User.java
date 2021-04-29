@@ -11,7 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -20,14 +22,16 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	@NotBlank(message = "Name field is requred !!!")
-	@Size(min = 2, max = 20 ,message = "Min - 2 and Max - 20 characters are allowed !!!")
+	@Size(min = 2, max = 20, message = "Min - 2 and Max - 20 characters are allowed !!!")
 	private String name;
 
 	@Column(unique = true)
+	@Email(regexp = "[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message = "Email should valide (example.samplemail@gmail.com !!!")
 	private String email;
 
+	@Pattern(regexp = "^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{8,}$", message = "At least one upper and lower case letter, one digit, one special character, min - 8 in length ")
 	private String password;
 	private String role;
 	private boolean enabled;

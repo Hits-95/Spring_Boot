@@ -48,7 +48,7 @@ public class HomeCntroller {
 
 	// handler for registering user
 	@PostMapping("/do_register")
-	public String registerUser(@ModelAttribute("user") User user,
+	public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult result,
 			@RequestParam(value = "agreement", defaultValue = "false") boolean agreement, Model model,
 			HttpSession session) {
 
@@ -58,12 +58,21 @@ public class HomeCntroller {
 				throw new Exception("You have not agreed terms and conditons.");
 			}
 
+			// if result has errors
+			if (result.hasErrors()) {
+				// bind wrong data and redirect it into same page for display...
+				System.out.println("ERRORS : " + result.toString());
+				model.addAttribute("user", user);
+				return "signup";
+			}
+
 			user.setRole("ROLE_USER");
 			user.setEnabled(true);
 			user.setImageUrl("default.png");
 
 			this.userDao.save(user);
 
+			// make field as blank 
 			model.addAttribute("user", new User());
 			session.setAttribute("message", new Message("Successfully Register !!! ", "alert-success"));
 			return "signup";
@@ -71,7 +80,7 @@ public class HomeCntroller {
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("user", user);
-			session.setAttribute("message", new Message("Something went wrong => " + e.getMessage(), "alert-error"));
+			session.setAttribute("message", new Message("Something wents wrong !!! " + e.getMessage(), "alert-danger"));
 			return "signup";
 		}
 	}
