@@ -4,9 +4,11 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,10 @@ public class HomeCntroller {
 	// creating object of user dao
 	@Autowired
 	private UserDao userDao;
+
+	// password encoder
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@RequestMapping(path = "/")
 	public String home(Model model) {
@@ -69,10 +75,11 @@ public class HomeCntroller {
 			user.setRole("ROLE_USER");
 			user.setEnabled(true);
 			user.setImageUrl("default.png");
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 			this.userDao.save(user);
 
-			// make field as blank 
+			// make field as blank
 			model.addAttribute("user", new User());
 			session.setAttribute("message", new Message("Successfully Register !!! ", "alert-success"));
 			return "signup";
@@ -83,5 +90,13 @@ public class HomeCntroller {
 			session.setAttribute("message", new Message("Something wents wrong !!! " + e.getMessage(), "alert-danger"));
 			return "signup";
 		}
+	}
+
+	// hadler for custom login
+	@GetMapping("/signin")
+	public String customLogin(Model model) {
+
+		model.addAttribute("title", "Login-Page");
+		return "login";
 	}
 }

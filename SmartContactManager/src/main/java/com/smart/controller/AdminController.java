@@ -5,12 +5,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping(path = "/admin")
+public class AdminController {
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String dashBoard() {
-		System.out.println("user/index called");
-		return "user/dash_board";
+		System.out.println("admin/index called");
+		return "admin/dash_board";
 	}
+
 }

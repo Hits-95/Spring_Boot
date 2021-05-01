@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		// fetching user from database...
 		User user = this.userDao.getUserByUserName(username);
 
-		if (user == null) {
+		if (user == null) {	
 			throw new UsernameNotFoundException("Could not found user !!!");
 		}
 
