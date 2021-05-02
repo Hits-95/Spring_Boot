@@ -39,8 +39,8 @@
 
 					<li class="nav-item"><a class="nav-link" th:href="@{/about}">About</a></li>
 
-					<li class="nav-item "><a class="nav-link"
-						th:href="@{/#}" tabindex="-1" aria-disabled="true"><b><i>@<span
+					<li class="nav-item "><a class="nav-link" th:href="@{/#}"
+						tabindex="-1" aria-disabled="true"><b><i>@<span
 									th:text="${user.name}"></span></i></b></a></li>
 
 					<li class="nav-item"><a class="nav-link" href="#"
@@ -51,8 +51,20 @@
 	</nav>
 	<!-- END of Nav bar -->
 
-	<!-- page data which will be replace automatically -->
-	<div th:replace="${content}"></div>
+	<!-- Side bar action -->
+	<div class="sidebar">
+		<a href="#" class="item">Home</a> <a href="#" class="item">View-Contacts</a>
+		<a href="#" class="item">Add-Contacts</a> <a href="#" class="item">Your-Profile</a>
+		<a href="" class="item">Settings</a> <a href="" class="item">Logout</a>
+	</div>
+
+	<!-- END of Side bar action -->
+
+	<!-- content section - page data which will be replace automatically -->
+	<div class="content">
+		<div th:replace="${content}"></div>
+	</div>
+	<!-- End of content area -->
 
 	<!-- Optional JavaScript; choose one of the two! -->
 

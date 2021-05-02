@@ -15,8 +15,24 @@ body {
 	color: white;
 }
 
-.my-card{
+.my-card {
 	padding: 20px;
 	background: #FBFCFC;
+}
+
+/* side bar style */
+.sidebar {
+	width: 18%;
+	background: #ECF0F1 ;
+	height: 100%;
+	position: fixed;
+	padding-top: 45px;
+}
+/* target all anker tags*/
+.sidebar a {
 	
+}
+/*  content */
+.content {
+	margin-left: 20%;
 }
