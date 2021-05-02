@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="user/base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+	<section>
+		<div class="card " style="margin-right: 2%">
+			<div class="card-body">
+				<h1 class="text-center">Add-Contact</h1>
+				<div class="container-fluid mt-1 ">
+					<div class="row">
+						<div class="col-md-10 offset-md-1">
+							<form th:action="@{/user/process-contact}" method="post"
+								th:object="${contact}" enctype="multipart/form-data"
+								class="nt-2">
+								<!-- first name -->
+								<div class="input-group mb-3">
+									<span class="input-group-text me-2" id="basic-addon1"><i
+										class="fas fa-user-tie"></i></span> <input type="text" name="name"
+										class="form-control" placeholder="Enter name here...">
+								</div>
+
+								<!-- secondName name -->
+								<div class="input-group mb-3">
+									<span class="input-group-text me-2" id="basic-addon1"><i
+										class="fas fa-plus"></i></span> <input type="text" name="secondName"
+										class="form-control" placeholder="Enter Second Name here...">
+								</div>
+
+								<!-- phone -->
+								<div class="input-group mb-3">
+									<span class="input-group-text me-2" id="basic-addon1"><i
+										class="fas fa-phone-alt"></i></span> <input type="number"
+										name="phone" class="form-control"
+										placeholder="Enter phone number here...">
+								</div>
+
+								<!-- Email -->
+								<div class="input-group mb-3">
+									<span class="input-group-text me-2" id="basic-addon1"><i
+										class="fas fa-envelope"></i></span> <input type="email" name="email"
+										class="form-control" placeholder="Enter email here...">
+								</div>
+								
+								<!-- work -->
+								<div class="input-group mb-3">
+									<span class="input-group-text me-2" id="basic-addon1"><i
+										class="fas fa-briefcase"></i></span> <input type="text" name="work"
+										class="form-control" placeholder="Enter work here...">
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+</body>
+</html>
