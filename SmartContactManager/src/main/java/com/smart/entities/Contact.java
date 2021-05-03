@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Contact {
@@ -13,25 +16,33 @@ public class Contact {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cId;
+	@NotBlank(message = "Name field is requred !!!")
 	private String name;
+	@NotBlank(message = "secondName field is requred !!!")
 	private String secondName;
+	@NotBlank(message = "work field is requred !!!")
 	private String work;
+	@Column(unique = true)
+	@NotBlank(message = "Email field is requred !!!")
+	@Email(regexp = "[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message = "Email should valide (example.samplemail@gmail.com !!!")
 	private String email;
+	@NotBlank(message = "Phone field is requred !!!")
+	@Size(min = 10, message = "Size must be 10 !!")
 	private String phone;
-	private String imageUrl;
 	
-	@Column(length = 500)
+	private String image;
+
+	@Column(length = 5000)
 	private String description;
 
-	//database mapping
+	// database mapping
 	@ManyToOne
 	private User user;
-	
-	
+
 	public Contact() {
 	}
 
-	public Contact(int cId, String name, String secondName, String work, String email, String phone, String imageUrl,
+	public Contact(int cId, String name, String secondName, String work, String email, String phone, String image,
 			String description, User user) {
 		super();
 		this.cId = cId;
@@ -40,12 +51,10 @@ public class Contact {
 		this.work = work;
 		this.email = email;
 		this.phone = phone;
-		this.imageUrl = imageUrl;
+		this.image = image;
 		this.description = description;
 		this.user = user;
 	}
-
-
 
 	public int getcId() {
 		return cId;
@@ -95,12 +104,12 @@ public class Contact {
 		this.phone = phone;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getImage() {
+		return image;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getDescription() {
@@ -122,11 +131,8 @@ public class Contact {
 	@Override
 	public String toString() {
 		return "Contact [cId=" + cId + ", name=" + name + ", secondName=" + secondName + ", work=" + work + ", email="
-				+ email + ", phone=" + phone + ", imageUrl=" + imageUrl + ", description=" + description + ", user="
-				+ user + "]";
+				+ email + ", phone=" + phone + ", image=" + image + ", description=" + description + ", user=" + user
+				+ "]";
 	}
 
-	
-	
-	
 }

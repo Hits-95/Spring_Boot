@@ -78,3 +78,12 @@ body {
 	text-align: right;
 	cursor: pointer;
 }
+
+/* Error messages*/
+.bg-success {
+	background: #229954;
+}
+
+.bg-danger {
+	background: #CB4335;
+}

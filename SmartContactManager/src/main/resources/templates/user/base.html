@@ -81,7 +81,17 @@
 	<!-- content section - page data which will be replace automatically -->
 	<div class="content mt-5">
 		<i onclick="toggleSideBar()" class="fas fa-bars m-3"></i>
-
+		<!-- Message -->
+		<div th:if="${session.message}" class="container">
+			<div class="row">
+				<div class="col-md-6 offset-3">
+					<div th:classappend="${session.message.type}"
+						class="alert text-center text-white text-dark" role="alert"
+						 th:text="${session.message.content}"></div>
+				</div>
+			</div>
+			<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+		</div>
 		<div th:replace="${content}"></div>
 	</div>
 	<!-- End of content area -->
