@@ -6,23 +6,29 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.smart.dao.ContactDao;
 import com.smart.dao.UserDao;
 import com.smart.entities.Contact;
 import com.smart.entities.User;
@@ -34,6 +40,9 @@ public class UserController {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private ContactDao contactDao;
 
 	private User user = null;
 
@@ -77,6 +86,7 @@ public class UserController {
 			// processing and uploading file
 			if (file.isEmpty()) {
 				System.out.println("file is empty .");
+				contact.setImage("contact.png");
 			} else {
 
 				contact.setImage(file.getOriginalFilename());
@@ -96,9 +106,46 @@ public class UserController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			session.setAttribute("message", new Message("Something went wrong !!! Try again...", "bg-danger"));
+			String Error = "Something went wrong !!! Try again... " + e.getMessage();
+			session.setAttribute("message", new Message(Error, "bg-danger"));
 
 		}
+		model.addAttribute("title", "Add-Contact");
 		return "user/add_contact_form";
+	}
+
+	// show contacts handler
+	// per page = 5[n]
+	// current page = 0 [page]
+	@GetMapping("/show-contacts/{page}")
+	public String showContacts(@PathVariable("page") Integer page, Model model, HttpSession session) {
+
+		model.addAttribute("title", "View-Contacts");
+		// send all contacts list to show_contact page
+		// get log in user data from database
+		// gor paggination create object of PageRequest
+		PageRequest pageAble = PageRequest.of(page, 5);
+		Page<Contact> contacts = this.contactDao.findContactByUser(this.user.getId(), pageAble);
+		model.addAttribute("contacts", contacts);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", contacts.getTotalPages());
+
+		// empty contact
+		if (contacts.isEmpty()) {
+			session.setAttribute("message", new Message("You have not contacts please add it!!! ", "bg-danger"));
+		}
+		return "user/show_contacts";
+	}
+
+	// show perticular contact details
+	@GetMapping("/{cId}/contact")
+	public String showContactDetails(@PathVariable("cId") Integer cId, Model model) {
+
+		Optional<Contact> optional = this.contactDao.findById(cId);
+		Contact contact = optional.get();
+		
+		model.addAttribute("title", contact.getName());
+		model.addAttribute("contact", contact);
+		return "user/contact_detail";
 	}
 }

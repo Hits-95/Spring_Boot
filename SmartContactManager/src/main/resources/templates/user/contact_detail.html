@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="user/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<section>
+		<div class="card text-center me-3 ms-3">
+			<div class="card-body">
+				<img style="height: 200px; width: 200px;" class="my_profile_picture"
+					alt="contact" th:src="@{'/upload_image/' + ${contact.image}}" />
+				<h3>
+					<span th:text="${contact.name}"></span> ( <span
+						th:text="${contact.secondName}"></span> )
+				</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#ID</th>
+							<th th:text="'HITS2021@' + ${contact.cId}"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="col">Email</th>
+							<th th:text="${contact.email}"></th>
+						</tr>
+						<tr>
+							<th scope="col">Phone</th>
+							<th th:text="${contact.phone}"></th>
+						</tr>
+						<tr>
+							<th scope="col">Work</th>
+							<th th:text="${contact.work}"></th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="card-footer">
+				<div class="description">
+					<th:block th:utext="${contact.description}"></th:block>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
