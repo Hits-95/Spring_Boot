@@ -143,9 +143,11 @@ public class UserController {
 
 		Optional<Contact> optional = this.contactDao.findById(cId);
 		Contact contact = optional.get();
-		
-		model.addAttribute("title", contact.getName());
-		model.addAttribute("contact", contact);
+		// sequrity...
+		if (user.getId() == contact.getUser().getId()) {
+			model.addAttribute("title", contact.getName());
+			model.addAttribute("contact", contact);
+		}
 		return "user/contact_detail";
 	}
 }

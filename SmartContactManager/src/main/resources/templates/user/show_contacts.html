@@ -37,14 +37,15 @@
 
 							<th scope="row" th:text="'HITS2021@'+${contact.cId}"></th>
 							<th><img class="my_profile_picture" alt="contact"
-								th:src="@{'/upload_image/' + ${contact.image}}"/> <span
+								th:src="@{'/upload_image/' + ${contact.image}}" /> <span
 								th:text="${contact.name } + '  (' + ${contact.secondName} +')'"></span>
 							</th>
 							<th><a th:href="@{'/user/'+ ${contact.cId} +'/contact/'}">
 									<span th:text="${contact.email}"></span>
 							</a></th>
 							<th th:text="${contact.phone}"></th>
-							<th><a><i class=" text-danger far fa-trash-alt"></i></a> <a
+							<th><a th:href="@{'/user/delete/' + ${contact.cId}}"><i
+									class=" text-danger far fa-trash-alt"></i></a> <a
 								style="margin-left: 20px;"> <i
 									class="text-primary far fa-edit"></i>
 							</a></th>
@@ -52,9 +53,10 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="card-footer text-muted">
-				<!-- Pagination -->
-				<nav aria-label="Page navigation example">
+			<!-- Pagination -->
+			<div class="card-footer text-muted ">
+
+				<nav aria-label="Page navigation example ">
 					<ul class="pagination">
 						<li th:if="${currentPage != 0}" class="page-item"><a
 							class="page-link"

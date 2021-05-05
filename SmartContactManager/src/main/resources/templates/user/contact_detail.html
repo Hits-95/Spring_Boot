@@ -6,7 +6,7 @@
 </head>
 <body>
 	<section>
-		<div class="card text-center me-3 ms-3">
+		<div class="card text-center me-3 ms-3" th:if="${contact}">
 			<div class="card-body">
 				<img style="height: 200px; width: 200px;" class="my_profile_picture"
 					alt="contact" th:src="@{'/upload_image/' + ${contact.image}}" />
@@ -43,6 +43,7 @@
 				</div>
 			</div>
 		</div>
+		<h1 th:unless="${contact}" class="text-center bg-danger p-4 me-4 ms-4 text-white">You don't have permission to see this contact....</h1>
 	</section>
 </body>
 </html>

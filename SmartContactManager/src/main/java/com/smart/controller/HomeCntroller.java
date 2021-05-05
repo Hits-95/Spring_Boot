@@ -79,6 +79,7 @@ public class HomeCntroller {
 
 			this.userDao.save(user);
 
+			//successfull registration
 			// make field as blank
 			model.addAttribute("user", new User());
 			session.setAttribute("message", new Message("Successfully Register !!! ", "alert-success"));

@@ -22,7 +22,7 @@ public class Contact {
 	private String secondName;
 	@NotBlank(message = "work field is requred !!!")
 	private String work;
-	@Column(unique = true)
+
 	@NotBlank(message = "Email field is requred !!!")
 	@Email(regexp = "[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message = "Email should valide (example.samplemail@gmail.com !!!")
 	private String email;
