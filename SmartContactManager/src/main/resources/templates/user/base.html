@@ -61,13 +61,15 @@
 
 	<!-- Side bar action -->
 	<div class="sidebar mt-2" id="sidebar">
-		<span onclick="toggleSideBar()" class="crossBtn"> &times;</span> 
-		<a th:href="@{/user/index}" class="item"><i class="fas fa-home"></i> Home</a>
-		<a th:href="@{/user/show-contacts/0}" class="item"><i	class="fas fa-address-book"></i> View-Contacts</a>
-		<a th:href="@{/user/add-contact}" class="item"><i class="fas fa-plus-square"></i> Add-Contacts</a> 
-		<a th:href="@{/}" class="item"><i	class="fas fa-user-circle"></i> Your-Profile</a>
-		<a th:href="@{/}" class="item"><i	class="fas fa-cog"></i> Settings</a>
-		<a th:href="@{/logout}" class="item"><i	class="fas fa-sign-out-alt"></i>Logout</a>
+		<span onclick="toggleSideBar()" class="crossBtn"> &times;</span> <a
+			th:href="@{/user/index}" class="item"><i class="fas fa-home"></i>
+			Home</a> <a th:href="@{/user/show-contacts/0}" class="item"><i
+			class="fas fa-address-book"></i> View-Contacts</a> <a
+			th:href="@{/user/add-contact}" class="item"><i
+			class="fas fa-plus-square"></i> Add-Contacts</a> <a th:href="@{/}"
+			class="item"><i class="fas fa-user-circle"></i> Your-Profile</a> <a
+			th:href="@{/}" class="item"><i class="fas fa-cog"></i> Settings</a> <a
+			th:href="@{/logout}" class="item"><i class="fas fa-sign-out-alt"></i>Logout</a>
 
 		<!-- divider -->
 		<div class="divider"></div>
@@ -106,6 +108,29 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<!-- Our JavaScript -->
 	<script type="text/javascript" th:src="@{/js/script.js}"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	
+	<script type="text/javascript">
+		function deleteContact(cId, currentPage){
+			swal({
+				  title: "Are you sure?",
+				  text: "You want to delete this contact...",
+				  icon: "warning",
+				  buttons: true,
+				  dangerMode: true,
+				})
+				.then((willDelete) => {
+				  if (willDelete) {
+					  window.location.href = "/user/delete/"+cId+"/"+currentPage;
+				    swal("Poof! Your contact has been deleted!", {
+				      icon: "success",
+				    });
+				  } else {
+				    swal("Your contact is safe !!");
+				  }
+				});
+		}
+	</script>
 	<!-- Option 2: Separate Popper and Bootstrap JS -->
 	<!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>

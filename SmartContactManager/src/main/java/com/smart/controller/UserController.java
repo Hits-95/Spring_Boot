@@ -69,6 +69,7 @@ public class UserController {
 	public String opneAddContactForm(Model model) {
 
 		model.addAttribute("title", "Add-Contact");
+		model.addAttribute("opration", "add");
 		model.addAttribute("contact", new Contact());
 		return "user/add_contact_form";
 	}
@@ -76,8 +77,10 @@ public class UserController {
 	/// process-contact save contact in database handler
 	@PostMapping("/process-contact")
 	public String processContact(@Valid @ModelAttribute("contact") Contact contact, BindingResult bindingResul,
-			@RequestParam("image") MultipartFile file, Model model, HttpSession session) {
+			@RequestParam("image") MultipartFile file, @RequestParam("opration") String opr, Model model,
+			HttpSession session) {
 		try {
+			
 			// validation part
 			if (bindingResul.hasErrors()) {
 				System.out.println("Errors : " + bindingResul.toString());
@@ -85,12 +88,30 @@ public class UserController {
 			}
 			// processing and uploading file
 			if (file.isEmpty()) {
-				System.out.println("file is empty .");
-				contact.setImage("contact.png");
+				if (opr.equals("add"))
+					contact.setImage("contact.png");
+				else
+					contact.setImage(file.getOriginalFilename());
+
 			} else {
 
-				contact.setImage(file.getOriginalFilename());
 				File saveFile = new ClassPathResource("static/upload_image").getFile();
+
+				// delete file
+
+				System.out.println(contact);
+				if (opr.equals("update")) {
+					// get data from database for deletion image in folder
+					String deleteimage = this.contactDao.findById(contact.getcId()).get().getImage();
+					
+					if (!deleteimage.equals("contact.png")) {
+						File deleteFile = new File(saveFile, deleteimage);
+						deleteFile.delete();
+					}
+				}
+
+				// save image in database...
+				contact.setImage(file.getOriginalFilename());
 				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 			}
@@ -101,17 +122,20 @@ public class UserController {
 			userDao.save(user);
 
 			// success message...
-			session.setAttribute("message", new Message("Your contact is added !!! Add more...", "bg-success"));
+			session.setAttribute("message", new Message((opr.equals("add")) ? "Your contact is added !!! Add more..."
+					: "Your contact has been updated !!! ", "bg-success"));
 			model.addAttribute("contact", new Contact());
 
 		} catch (Exception e) {
+
 			e.printStackTrace();
 			String Error = "Something went wrong !!! Try again... " + e.getMessage();
 			session.setAttribute("message", new Message(Error, "bg-danger"));
+			return "user/add_contact_form";
 
 		}
-		model.addAttribute("title", "Add-Contact");
-		return "user/add_contact_form";
+		model.addAttribute("title", opr.equals("add") ? "Add-Contact" : "Update-Contact");
+		return ((opr.equals("add")) ? "redirect:/user/show-contacts/0" : "redirect:/user/" + contact.getcId() + "/contact");
 	}
 
 	// show contacts handler
@@ -149,5 +173,38 @@ public class UserController {
 			model.addAttribute("contact", contact);
 		}
 		return "user/contact_detail";
+	}
+
+	// delete contact..
+	@GetMapping("/delete/{cId}/{currentPage}")
+	public String deleteContact(@PathVariable("cId") Integer cId, @PathVariable("currentPage") Integer currentPage,
+			Model model) {
+
+		Optional<Contact> contactOptional = this.contactDao.findById(cId);
+		Contact contact = contactOptional.get();
+
+		// check..
+		if (user.getId() == contact.getUser().getId()) {
+
+			// unlinke this with user
+			contact.setUser(null);
+			this.contactDao.delete(contact);
+		}
+		return "redirect:/user/show-contacts/" + currentPage;
+	}
+
+	// open update form handler
+	@GetMapping("/update-contact/{cId}")
+	public String updateContact(@PathVariable("cId") Integer cId, Model model) {
+
+		model.addAttribute("title", "Update-Contact");
+		model.addAttribute("opration", "update");
+		Contact contact = this.contactDao.findById(cId).get();
+
+		// check...
+		if (user.getId() == contact.getUser().getId()) {
+			model.addAttribute("contact", contact);
+		}
+		return "user/add_contact_form";
 	}
 }

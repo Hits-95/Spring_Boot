@@ -8,7 +8,8 @@
 	<section>
 		<div class="card " style="margin-right: 2%; margin-left: 1.5%;">
 			<div class="card-body">
-				<h1 class="text-center">Add-Contact</h1>
+				<h1 class="text-center"
+					th:text="${ opration == 'add' ? 'Add-Contact' : 'Update-Contact'}"></h1>
 
 				<div class="container-fluid ">
 					<div class="row">
@@ -17,6 +18,13 @@
 								th:action="@{/user/process-contact}" method="POST"
 								th:object="${contact}" enctype="multipart/form-data"
 								class="nt-2">
+
+								<!-- hidden data  -->
+								<input th:if="${opration == 'update'}" type="hidden" name="cId"
+									th:value="${contact.cId}" /> 
+									
+									<input type="hidden"
+									name="opration" th:value="${opration}">
 								<!-- first name -->
 
 								<div class="input-group mb-3">
@@ -85,6 +93,12 @@
 
 
 								<!-- image -->
+								<!-- display image for updation -->
+								<div class="text-center" th:if="${opration == 'update'}">
+									<img style="height: 200px; width: 200px;"
+										class="my_profile_picture" alt="contact"
+										th:src="@{'/upload_image/' + ${contact.image}}" />
+								</div>
 								<div class="input-group mb-3 mt-1">
 									<input type="file" name="image" class="form-control">
 								</div>
