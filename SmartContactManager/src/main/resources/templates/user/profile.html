@@ -6,56 +6,50 @@
 </head>
 <body>
 	<section>
-		<div class="card text-center me-3 ms-3" th:if="${contact}">
+		<div class="card text-center me-3 ms-3">
 			<div class="card-body">
 
 				<img style="height: 200px; width: 200px;" class="my_profile_picture"
-					alt="contact" th:src="@{'/upload_image/' + ${contact.image}}" />
-				<h3>
-					<span th:text="${contact.name}"></span> ( <span
-						th:text="${contact.secondName}"></span> )
-				</h3>
-				<h4>
-					<!-- delete ancker -->
+					alt="contact" th:src="@{'/upload_image/default.jpg'}" />
+				<h3 th:text="${user.name}"></h3>
+				<!-- <h4>
+					delete ancker
 					<a th:onclick="|deleteContact(${contact.cId}, 0)|"><i
 						class=" text-danger far fa-trash-alt"></i></a> <a
 						th:href="@{'/user/update-contact/'+ ${contact.cId}}"
 						style="margin-left: 20px;"><i
 						class="text-primary far fa-edit ms-3"></i> </a>
 
-				</h4>
+				</h4> -->
 				<table class="table">
 					<thead>
 						<tr>
 							<th scope="col">#ID</th>
-							<th th:text="'HITS2021@' + ${contact.cId}"></th>
+							<th th:text="'HITS2021@' + ${user.id}"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<th scope="col">Email</th>
-							<th th:text="${contact.email}"></th>
+							<th th:text="${user.email}"></th>
 						</tr>
 						<tr>
-							<th scope="col">Phone</th>
-							<th th:text="${contact.phone}"></th>
+							<th scope="col">Role</th>
+							<th th:text="${user.role}"></th>
 						</tr>
 						<tr>
-							<th scope="col">Work</th>
-							<th th:text="${contact.work}"></th>
+							<th scope="col">Account Active</th>
+							<th th:text="${user.enabled}"></th>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="card-footer">
 				<div class="description">
-					<th:block th:utext="${contact.description}"></th:block>
+					<th:block th:utext="${user.about}"></th:block>
 				</div>
 			</div>
 		</div>
-		<h1 th:unless="${contact}"
-			class="text-center bg-danger p-4 me-4 ms-4 text-white">You don't
-			have permission to see this contact....</h1>
 	</section>
 </body>
 </html>

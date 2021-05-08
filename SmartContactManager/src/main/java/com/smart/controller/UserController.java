@@ -7,11 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -126,7 +123,7 @@ public class UserController {
 
 				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
+				
 				// rename file
 				String newFileName = "Hits_"
 						+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss")) + ".jpg";
@@ -204,7 +201,7 @@ public class UserController {
 	@GetMapping("/delete/{cId}/{currentPage}")
 	public String deleteContact(@PathVariable("cId") Integer cId, @PathVariable("currentPage") Integer currentPage,
 			Model model) {
-
+			System.out.println("delete handler called..");
 		Optional<Contact> contactOptional = this.contactDao.findById(cId);
 		Contact contact = contactOptional.get();
 
@@ -239,5 +236,15 @@ public class UserController {
 			model.addAttribute("contact", contact);
 		}
 		return "user/add_contact_form";
+	}
+
+	/*
+	 *** Log in user profile handlers
+	 */
+
+	@GetMapping("/profile")
+	public String yourProfile(Model model) {
+		model.addAttribute("title", "Profile-page");
+		return "user/profile";
 	}
 }

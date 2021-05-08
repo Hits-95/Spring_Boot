@@ -15,6 +15,16 @@ body {
 	color: white;
 }
 
+.user-dash {
+	font-style: italic;
+	width: 99%;
+	height: 85vh;
+	background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)),
+		url(../image/user_dash.jpg);
+	background-size: cover;
+	color: white;
+}
+
 .my-card {
 	padding: 20px;
 	background: #FBFCFC;
@@ -94,5 +104,4 @@ body {
 	height: 35px;
 	object-fit: cover;
 	border-radius: 50%;
-	
 }

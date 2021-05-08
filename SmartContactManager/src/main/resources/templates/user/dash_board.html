@@ -5,9 +5,18 @@
 <meta charset="UTF-8" />
 </head>
 <body>
-	<section>
-		<h1>Welcome !!! You are normal user,</h1>
-		<h2>This is your private dashboard.</h2>
+	<section
+		class="user-dash d-flex justify-content-center align-items-center">
+		<div class="text-center">
+			<h1>
+				Welcome !!! <span th:text="${user.name}"></span>
+			</h1>
+			<p>Start collecting your context in very smarter way. We provide
+				very efficient and smarter way of handling contact.</p>
+			<p>Upload your contact on cloud</p>
+			<a th:href="@{/user/add-contact}" class="btn btn-primary text-white">Add-Contact</a>
+		</div>
 	</section>
+
 </body>
 </html>
