@@ -1,11 +1,16 @@
 package com.smart.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +51,13 @@ public class UserController {
 
 	private User user = null;
 
+	private File saveFile = null;
+
+	public UserController() throws IOException {
+		this.saveFile = new ClassPathResource("static/upload_image").getFile();
+		;
+	}
+
 	// method for adding common data
 	@ModelAttribute
 	public void addCommonData(Model model, Principal principal) {
@@ -80,30 +92,30 @@ public class UserController {
 			@RequestParam("image") MultipartFile file, @RequestParam("opration") String opr, Model model,
 			HttpSession session) {
 		try {
-			
+			System.out.println(contact);
+			model.addAttribute("title", opr.equals("add") ? "Add-Contact" : "Update-Contact");
 			// validation part
 			if (bindingResul.hasErrors()) {
 				System.out.println("Errors : " + bindingResul.toString());
-				model.addAttribute("contact", contact);
+
 			}
 			// processing and uploading file
 			if (file.isEmpty()) {
 				if (opr.equals("add"))
 					contact.setImage("contact.png");
 				else
-					contact.setImage(file.getOriginalFilename());
+					contact.setImage(this.contactDao.findById(contact.getcId()).get().getImage());
 
 			} else {
 
-				File saveFile = new ClassPathResource("static/upload_image").getFile();
-
-				// delete file
+				// delete file path
+				Paths.get(saveFile.getAbsolutePath() + File.separator);
 
 				System.out.println(contact);
 				if (opr.equals("update")) {
 					// get data from database for deletion image in folder
 					String deleteimage = this.contactDao.findById(contact.getcId()).get().getImage();
-					
+
 					if (!deleteimage.equals("contact.png")) {
 						File deleteFile = new File(saveFile, deleteimage);
 						deleteFile.delete();
@@ -111,9 +123,20 @@ public class UserController {
 				}
 
 				// save image in database...
-				contact.setImage(file.getOriginalFilename());
+
 				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+				// rename file
+				String newFileName = "Hits_"
+						+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss")) + ".jpg";
+
+				// save name with this name into database...
+				contact.setImage(newFileName);
+
+				Path newFilePath = Paths.get(saveFile.getAbsolutePath() + File.separator + newFileName);
+				Files.move(path, newFilePath);
+
 			}
 
 			// bidirectional mapping for save user_id into contact...
@@ -131,11 +154,13 @@ public class UserController {
 			e.printStackTrace();
 			String Error = "Something went wrong !!! Try again... " + e.getMessage();
 			session.setAttribute("message", new Message(Error, "bg-danger"));
+			model.addAttribute("opration", opr.equals("add") ? "add" : "update");
 			return "user/add_contact_form";
 
 		}
-		model.addAttribute("title", opr.equals("add") ? "Add-Contact" : "Update-Contact");
-		return ((opr.equals("add")) ? "redirect:/user/show-contacts/0" : "redirect:/user/" + contact.getcId() + "/contact");
+
+		return ((opr.equals("add")) ? "redirect:/user/show-contacts/0"
+				: "redirect:/user/" + contact.getcId() + "/contact");
 	}
 
 	// show contacts handler
@@ -186,8 +211,15 @@ public class UserController {
 		// check..
 		if (user.getId() == contact.getUser().getId()) {
 
+			// delete file from folder
+
+			if (!contact.getImage().equals("contact.png")) {
+				File deleteFile = new File(saveFile, contact.getImage());
+				deleteFile.delete();
+			}
 			// unlinke this with user
 			contact.setUser(null);
+
 			this.contactDao.delete(contact);
 		}
 		return "redirect:/user/show-contacts/" + currentPage;
@@ -203,6 +235,7 @@ public class UserController {
 
 		// check...
 		if (user.getId() == contact.getUser().getId()) {
+			System.out.println("delete file = " + saveFile + contact.getImage());
 			model.addAttribute("contact", contact);
 		}
 		return "user/add_contact_form";
