@@ -1,0 +1,23 @@
+.container{
+
+}
+
+.field{
+    width: 100%;
+}
+
+.card{
+    width: 50%;
+    margin: auto;
+    background: white;
+    padding: %;
+}
+
+.card mat-card-title {
+    text-align: center;
+    padding: 1%;
+}
+
+.text-center{
+    text-align: center;
+}
