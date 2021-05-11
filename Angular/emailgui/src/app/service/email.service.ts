@@ -6,11 +6,11 @@ import { Injectable } from '@angular/core';
 })
 export class EmailService {
 
-  private base_url: String = "http://127.0.0.1:8080";
+  private base_url = "http://127.0.0.1:8080";
 
   constructor(private http: HttpClient) { }
 
   sendEmail(data: any) {
-    return this.http.post("${this.base_url}/send-email", data);
+    return this.http.post(this.base_url + "/send-email", data);
   }
 }

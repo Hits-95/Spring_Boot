@@ -18,14 +18,15 @@
                 <textarea rows="10" matInput placeholder="hey, Enter your message here guys..." name="message"
                     [(ngModel)]="data.message"></textarea>
             </mat-form-field>
+            <mat-spinner *ngIf="flag" style="margin: auto;padding: 0.5%;"></mat-spinner>
 
             <div class="text-center">
-                <button type="submit" mat-raised-button color="primary"> Send-Mail</button>
+                <button [disabled]="flag" type="submit" mat-raised-button color="primary"> Send-Mail</button>
                 <button style="margin-left: 1%;" type="reset" mat-raised-button color="accent"> Reset</button>
 
             </div>
         </form>
         <!--print data on browser-->
-        {{data | json}}
+        <!-- {{data | json}} -->
     </mat-card>
 </div>

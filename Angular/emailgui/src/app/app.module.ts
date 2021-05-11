@@ -16,8 +16,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { EmailService } from './service/email.service';
 import { HttpClientModule } from '@angular/common/http';
+import { EmailService } from './service/email.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+
 
 
 
@@ -40,10 +43,10 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    EmailService,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
   ],
-  providers: [MatSnackBar],
+  providers: [MatSnackBar, EmailService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
