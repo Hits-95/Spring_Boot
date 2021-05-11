@@ -23,7 +23,7 @@ public class EmailController {
 	}
 
 	// API to send mail
-	@PostMapping("/sendmail")
+	@PostMapping("/send-email")
 	public ResponseEntity<?> sendMail(@RequestBody EmailRequest emailRequest) {
 
 		System.out.println(emailRequest);

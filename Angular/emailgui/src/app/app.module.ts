@@ -16,6 +16,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { EmailService } from './service/email.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -37,8 +39,9 @@ import { FormsModule } from '@angular/forms';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
-
+    FormsModule,
+    EmailService,
+    HttpClientModule
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent]
